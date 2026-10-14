@@ -1,0 +1,285 @@
+.weather-quiz {
+  --weather-quiz-next-accent: #e85a1b;
+  max-width: 1120px;
+  margin: 0 auto;
+  color: #292536;
+  padding: 0 0 48px;
+}
+
+.weather-quiz-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  padding: 8px 0;
+  color: #6758c8;
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.weather-quiz-heading {
+  margin: 20px 0;
+  padding: 26px 30px;
+  border: 1px solid #e9e3ff;
+  border-radius: 18px;
+  background: linear-gradient(115deg, #f5f2ff, #fff7fb);
+}
+
+.weather-quiz-kicker {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #7163c7;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: .07em;
+}
+
+.weather-quiz-heading h1 {
+  margin: 8px 0;
+  font-size: 26px;
+}
+
+.weather-quiz-heading h1 span {
+  color: #827b9c;
+  font-size: 15px;
+  font-weight: 450;
+}
+
+.weather-quiz-heading p {
+  margin: 0;
+  color: #6e6a7a;
+}
+
+.weather-quiz-metrics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 17px;
+}
+
+.weather-quiz-metrics span {
+  padding: 6px 10px;
+  border: 1px solid #e8e2f6;
+  border-radius: 20px;
+  background: #fff;
+  color: #625a81;
+  font-size: 12px;
+}
+
+.weather-quiz-notice {
+  padding: 10px 13px;
+  border-radius: 9px;
+  background: #fff6df;
+  color: #6e5312;
+  font-size: 13px;
+}
+
+.weather-quiz-progress {
+  margin: 20px 0 14px;
+  padding: 14px 17px;
+  border: 1px solid #ece9f2;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.weather-quiz-progress > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.weather-quiz-progress span { color: #777285; }
+.weather-quiz-progress-track { height: 7px; margin-top: 10px; border-radius: 8px; background: #ece9f4; overflow: hidden; }
+.weather-quiz-progress-track i { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #7667df, #d17fb4); transition: width .2s ease; }
+.weather-quiz-progress-value.progress-0 { width: 0%; }
+.weather-quiz-progress-value.progress-1 { width: 5%; }
+.weather-quiz-progress-value.progress-2 { width: 10%; }
+.weather-quiz-progress-value.progress-3 { width: 15%; }
+.weather-quiz-progress-value.progress-4 { width: 20%; }
+.weather-quiz-progress-value.progress-5 { width: 25%; }
+.weather-quiz-progress-value.progress-6 { width: 30%; }
+.weather-quiz-progress-value.progress-7 { width: 35%; }
+.weather-quiz-progress-value.progress-8 { width: 40%; }
+.weather-quiz-progress-value.progress-9 { width: 45%; }
+.weather-quiz-progress-value.progress-10 { width: 50%; }
+.weather-quiz-progress-value.progress-11 { width: 55%; }
+.weather-quiz-progress-value.progress-12 { width: 60%; }
+.weather-quiz-progress-value.progress-13 { width: 65%; }
+.weather-quiz-progress-value.progress-14 { width: 70%; }
+.weather-quiz-progress-value.progress-15 { width: 75%; }
+.weather-quiz-progress-value.progress-16 { width: 80%; }
+.weather-quiz-progress-value.progress-17 { width: 85%; }
+.weather-quiz-progress-value.progress-18 { width: 90%; }
+.weather-quiz-progress-value.progress-19 { width: 95%; }
+.weather-quiz-progress-value.progress-20 { width: 100%; }
+
+.weather-quiz-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 18px 0 10px;
+  padding: 10px 13px;
+  border: 1px solid #ece9f2;
+  border-radius: 12px;
+  background: #fff;
+  color: #635b7c;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.weather-quiz-page-button {
+  border: 0;
+  padding: 7px 10px;
+  border-radius: 8px;
+  color: #6558c5;
+  background: #f3f0ff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.weather-quiz-page-button:disabled { color: #aaa6b6; background: #f6f5f8; cursor: default; }
+.weather-quiz-sentence-wrap { min-height: 150px; }
+.weather-quiz-sentence-wrap .weather-quiz-table tbody tr { background: #f3f5ff; }
+.weather-quiz-sentence-wrap .weather-quiz-english { min-height: 88px; vertical-align: middle; }
+.weather-quiz-sentence-wrap .weather-quiz-chinese { vertical-align: middle; }
+
+.weather-quiz-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #dddde5;
+  border-radius: 10px;
+  background: white;
+}
+
+.weather-quiz-scroll-hint { display: none; margin: 0 0 8px; color: #777285; font-size: 12px; }
+
+.weather-quiz-table {
+  width: 100%;
+  min-width: 800px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.weather-quiz-table th,
+.weather-quiz-table td {
+  padding: 11px 12px;
+  border: 1px solid #e0e2ea;
+  vertical-align: top;
+  text-align: left;
+}
+
+.weather-quiz-table thead th {
+  background: #fff6eb;
+  font-size: 13px;
+}
+
+.weather-quiz-table tbody tr:nth-child(odd) { background: #f0f3ff; }
+.weather-quiz-table tbody tr:nth-child(even) { background: #eff9ef; }
+.weather-quiz-table tbody tr:nth-child(5n) { background: #f5f0ff; }
+.weather-quiz-table th:first-child { width: 92px; }
+.weather-quiz-speaker { display: inline-flex; align-items: center; min-height: 27px; font-weight: 600; }
+.weather-quiz-speaker.sarah { color: #6555bc; }
+.weather-quiz-speaker.david { color: #368268; }
+.weather-quiz-speaker.jenny { color: #a15182; }
+.weather-quiz-english { min-width: 390px; overflow-wrap: anywhere; }
+.weather-quiz-chinese { min-width: 280px; }
+
+.weather-quiz-blank {
+  display: inline-flex;
+  position: relative;
+  vertical-align: baseline;
+  align-items: center;
+  margin: 0 2px;
+  padding: 0 2px;
+  border-radius: 5px;
+  background: #e5e7eb;
+}
+
+.weather-quiz-blank input {
+  width: 76px;
+  max-width: 135px;
+  border: 0;
+  border-bottom: 2px dashed #e96650;
+  border-radius: 3px;
+  outline: 0;
+  padding: 0 2px;
+  color: #302c3d;
+  background: transparent;
+  font: inherit;
+}
+.weather-quiz-blank input.weather-quiz-input-short { width: 50px; }
+.weather-quiz-blank input.weather-quiz-input-medium { width: 77px; }
+.weather-quiz-blank input.weather-quiz-input-long { width: 104px; }
+.weather-quiz-blank input.weather-quiz-input-extra-long { width: 145px; }
+
+.weather-quiz-blank input:focus-visible {
+  outline: 2px solid #7667df;
+  outline-offset: 2px;
+  background: white;
+}
+
+.weather-quiz-blank input:disabled { opacity: 1; color: #302c3d; }
+.weather-quiz-blank.is-correct { background: #e1f4e8; }
+.weather-quiz-blank.is-incorrect { background: #ffe8e5; }
+.weather-quiz-answer-review { display: inline-flex; align-items: center; gap: 3px; margin-left: 5px; color: #267342; font-size: 11px; font-weight: 700; }
+.weather-quiz-blank.is-incorrect .weather-quiz-answer-review { color: #9e382c; }
+
+.weather-quiz-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 17px;
+}
+
+.weather-quiz-submit {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 11px;
+  padding: 11px 18px;
+  color: white;
+  background: linear-gradient(100deg, #7667df, #a969cf);
+  box-shadow: 0 5px 14px #7264ce2b;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.weather-quiz-submit:hover { filter: brightness(1.05); }
+.weather-quiz button:focus-visible { outline: 3px solid #7667df; outline-offset: 3px; }
+.course-card-content > button.weather-quiz-entry {
+  color: #6859c6;
+  border-top-style: dashed;
+}
+.course-card-content > button.weather-quiz-entry:hover { color: #4d409f; }
+.weather-quiz-score { margin: 0 auto 0 0; font-size: 19px; }
+.weather-quiz-score strong { color: #6558c5; font-size: 25px; }
+.weather-quiz-next-challenge { display: flex; align-items: center; gap: 5px; width: fit-content; margin: 14px 0; color: var(--weather-quiz-next-accent); font-size: 12px; font-weight: 600; }
+.weather-quiz-history { margin-top: 35px; padding: 18px 20px; border: 1px solid #ece9f2; border-radius: 14px; background: #fff; }
+.weather-quiz-history h2 { margin: 0 0 10px; font-size: 16px; }
+.weather-quiz-history h2 span { color: #858092; font-size: 11px; font-weight: 400; }
+.weather-quiz-history ol { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 7px 24px; margin: 0; padding-left: 22px; }
+.weather-quiz-history li { padding: 4px 0; color: #716b7d; font-size: 12px; }
+.weather-quiz-history li time { margin-right: 12px; }
+.weather-quiz-history li strong { color: #6558c5; }
+
+@media (max-width: 760px) {
+  .weather-quiz { padding-bottom: 28px; }
+  .weather-quiz-heading { padding: 20px; }
+  .weather-quiz-heading h1 { font-size: 22px; }
+  .weather-quiz-heading h1 span { display: block; margin-top: 3px; }
+  .weather-quiz-table { min-width: 730px; font-size: 13px; }
+  .weather-quiz-table th, .weather-quiz-table td { padding: 9px; }
+  .weather-quiz-scroll-hint { display: block; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .weather-quiz-progress-track i { transition: none; }
+}

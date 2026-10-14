@@ -1,0 +1,75 @@
+.scene-manager { max-width: 1240px; margin: 0 auto; color: #29332f; }
+.scene-manager-heading { margin: 0 0 24px; padding: 7px 0 20px; border-bottom: 1px solid #e5ebe7; }
+.scene-manager-kicker { display: inline-flex; align-items: center; gap: 7px; color: #b24c22; font-size: 10px; font-weight: 700; letter-spacing: .06em; }
+.scene-manager-heading h1 { margin: 8px 0 3px; }
+.scene-manager-heading p { margin: 0; color: #7f8982; font-size: 13px; }
+.scene-manager-notice, .scene-manager-error { display: flex; align-items: center; gap: 7px; margin: 0 0 16px; border-radius: 6px; padding: 10px 13px; font-size: 12px; }
+.scene-manager-notice { color: #3d7953; background: #eef7ef; }
+.scene-manager-error { color: #a14032; background: #fff0ed; }
+.scene-manager-layout { display: grid; grid-template-columns: minmax(340px, .92fr) minmax(360px, 1.08fr); align-items: start; gap: 20px; }
+.scene-manager-form, .scene-manager-library { min-width: 0; border: 1px solid #e3e9e4; border-radius: 8px; background: #fff; }
+.scene-manager-form { padding: 20px; }
+.scene-manager-form-heading, .scene-manager-library-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.scene-manager-form-heading { margin-bottom: 18px; }
+.scene-manager-form-heading > div > span, .scene-manager-library-heading > div > span { color: #a1aaa4; font-size: 9px; font-weight: 700; letter-spacing: .08em; }
+.scene-manager-form-heading h2, .scene-manager-library-heading h2 { margin: 3px 0 0; color: #29332f; font-size: 17px; }
+.scene-manager-cancel { display: inline-flex; align-items: center; gap: 4px; border: 0; color: #78827b; background: transparent; font-size: 11px; }
+.scene-manager-field { display: flex; min-width: 0; flex-direction: column; gap: 5px; color: #515d55; font-size: 11px; }
+.scene-manager-field > span b { color: #e85a1b; font-weight: 500; }
+.scene-manager-field input, .scene-manager-field select, .scene-manager-field textarea { width: 100%; min-width: 0; border: 1px solid #dfe6e0; border-radius: 5px; padding: 9px 10px; color: #303a34; background: #fff; font: inherit; font-size: 12px; }
+.scene-manager-field textarea { min-height: 76px; resize: vertical; line-height: 1.6; }
+.scene-manager-field input:focus, .scene-manager-field select:focus, .scene-manager-field textarea:focus { border-color: #df8b65; outline: 2px solid #fce5d9; }
+.scene-manager-form > .scene-manager-field { margin-bottom: 13px; }
+.scene-manager-tests-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 20px 0 10px; padding-top: 16px; border-top: 1px solid #edf0ed; }
+.scene-manager-tests-heading > div { display: flex; flex-direction: column; gap: 2px; }
+.scene-manager-tests-heading > div span { color: #414c45; font-size: 12px; font-weight: 650; }
+.scene-manager-tests-heading small { color: #929b95; font-size: 10px; }
+.scene-manager-add-test { display: inline-flex; align-items: center; gap: 4px; flex: none; border: 1px solid #f1c3aa; border-radius: 5px; padding: 6px 9px; color: #c74c18; background: #fff9f5; font-size: 10px; }
+.scene-manager-test-list { display: grid; gap: 10px; }
+.scene-manager-test { position: relative; min-width: 0; margin: 0; padding: 13px; border: 1px solid #e5eae6; border-radius: 6px; }
+.scene-manager-test legend { padding: 0 5px; color: #77837a; font-size: 10px; }
+.scene-manager-remove-test { position: absolute; top: 5px; right: 5px; display: grid; place-items: center; width: 25px; height: 25px; border: 0; border-radius: 4px; color: #929a94; background: transparent; }
+.scene-manager-remove-test:hover { color: #b14135; background: #fff0ed; }
+.scene-manager-test-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.scene-manager-test-grid .scene-manager-field { font-size: 10px; }
+.scene-manager-test-grid .scene-manager-field input, .scene-manager-test-grid .scene-manager-field select { padding: 7px 8px; font-size: 11px; }
+.scene-manager-skills { grid-column: 1 / -1; }
+.scene-manager-no-tests { margin: 0; border: 1px dashed #dfe6e0; border-radius: 5px; padding: 15px; color: #8a958d; text-align: center; font-size: 11px; }
+.scene-manager-form-actions { display: flex; align-items: center; gap: 9px; margin-top: 18px; }
+.scene-manager-save { border: 0; border-radius: 5px; padding: 10px 17px; color: #fff; background: #e85a1b; font-size: 12px; font-weight: 600; }
+.scene-manager-save:hover { background: #d94b0b; }
+.scene-manager-save:disabled { opacity: .65; cursor: wait; }
+.scene-manager-clear { border: 1px solid #dfe6e0; border-radius: 5px; padding: 9px 14px; color: #69736d; background: #fff; font-size: 11px; }
+.scene-manager-library { overflow: hidden; }
+.scene-manager-library-heading { padding: 18px; border-bottom: 1px solid #edf0ed; }
+.scene-manager-library-heading h2 small { margin-left: 5px; color: #9aa39c; font-size: 11px; font-weight: 500; }
+.scene-manager-search { display: flex; align-items: center; gap: 6px; width: min(220px, 48%); border: 1px solid #e0e6e1; border-radius: 5px; padding: 0 8px; color: #9aa39c; }
+.scene-manager-search input { width: 100%; min-width: 0; border: 0; outline: 0; padding: 8px 0; color: #3c4740; font: inherit; font-size: 10px; }
+.scene-manager-records { display: grid; }
+.scene-manager-record { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 18px; border-bottom: 1px solid #edf0ed; }
+.scene-manager-record:last-child { border-bottom: 0; }
+.scene-manager-record-copy { min-width: 0; }
+.scene-manager-category { display: inline-block; border-radius: 999px; padding: 3px 7px; color: #986043; background: #f8efe8; font-size: 9px; }
+.scene-manager-record h3 { margin: 6px 0 2px; color: #303a34; font-size: 13px; }
+.scene-manager-record p { margin: 0; color: #7e8981; font-size: 11px; line-height: 1.5; }
+.scene-manager-record-meta { display: flex; flex-wrap: wrap; gap: 5px 10px; margin-top: 7px; color: #929b95; font-size: 9px; }
+.scene-manager-record-meta time { margin-left: auto; }
+.scene-manager-record-actions { display: flex; flex: none; gap: 5px; }
+.scene-manager-record-actions button { display: inline-flex; align-items: center; gap: 4px; border: 1px solid #e2e8e3; border-radius: 4px; padding: 6px 7px; color: #647168; background: #fff; font-size: 10px; }
+.scene-manager-record-actions button.danger { border-color: #f0d9d4; color: #a14a3e; }
+.scene-manager-record-actions button:hover { background: #f7f9f7; }
+.scene-manager-empty { display: flex; min-height: 190px; flex-direction: column; align-items: center; justify-content: center; gap: 8px; margin: 0; padding: 24px; color: #a0aaa3; text-align: center; font-size: 11px; }
+.scene-manager-empty strong { color: #69756d; font-size: 12px; }
+.scene-manager-empty span { color: #929b95; }
+.lesson-editor-section { display: grid; gap: 10px; margin-top: 18px; padding-top: 16px; border-top: 1px solid #edf0ed; }
+.lesson-editor-section > h3, .scene-manager-tests-heading h3 { display: flex; flex-direction: column; gap: 2px; margin: 0; color: #414c45; font-size: 12px; font-weight: 650; }
+.lesson-editor-section > h3 small, .scene-manager-tests-heading h3 small { color: #929b95; font-size: 10px; font-weight: 400; }
+.lesson-editor-items { display: grid; gap: 10px; }
+.lesson-editor-item { position: relative; min-width: 0; margin: 0; padding: 13px; border: 1px solid #e5eae6; border-radius: 6px; }
+.lesson-editor-item legend { padding: 0 5px; color: #77837a; font-size: 10px; }
+.lesson-editor-item .full-width { grid-column: 1 / -1; }
+.scene-manager-tests-heading h3 { margin-right: auto; }
+
+@media (max-width: 1120px) { .scene-manager-layout { grid-template-columns: 1fr; } }
+@media (max-width: 760px) { .scene-manager-form { padding: 15px; }.scene-manager-library-heading { align-items: flex-start; flex-direction: column; }.scene-manager-search { width: 100%; }.scene-manager-record { align-items: flex-start; flex-direction: column; }.scene-manager-record-actions { align-self: flex-end; }.scene-manager-record-meta time { margin-left: 0; } }
+@media (max-width: 480px) { .scene-manager-test-grid { grid-template-columns: 1fr; }.scene-manager-skills { grid-column: auto; }.scene-manager-tests-heading { align-items: flex-start; flex-direction: column; }.scene-manager-add-test { align-self: flex-start; } }

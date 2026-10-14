@@ -1,72 +1,100 @@
-# Weather & Environment Quiz Design
+# Rainy-Day Dialogue Cloze Design
 
 ## Goal
 
-Add a focused self-assessment for the existing **Weather & Environment** workplace-English lesson. It should help a learner distinguish vocabulary recall from the ability to produce useful workplace English, and give practical review guidance.
+Let the learner try a faithful, interactive version of the supplied “7.1.1 天气不好” dialogue cloze and review its presentation before expanding the course assessment.
 
 ## Scope
 
-- Add the quiz to the existing React course application as a separate in-app view.
-- Provide an entry point from the Weather & Environment course card on the learning home.
-- Cover only the existing Weather & Environment lesson in the first version.
-- Include two sequential stages:
-  1. Five vocabulary fill-in questions.
-  2. Five Chinese-to-English situational translation questions.
-- Present the quiz in a playful, game-inspired visual style with progress, XP, and streak feedback. Keep learning content and answer feedback visually primary.
-- Show results to the learner only. Do not add accounts, teacher dashboards, server storage, AI grading, or answer uploads.
+- Add one separate in-app practice view to the existing React course.
+- Add an entry point from the Weather & Environment course card.
+- Reproduce the complete rainy-day conversation and bilingual table shown in the original “7.1.1 天气不好” gray-blank question image. Hide exactly the text in its 20 gray blank fields, keeping each field as its own inline answer input.
+- Treat the original gray-blank question image as authoritative for blank positions and dialogue wording. The later answer-key image has some mismatches and is only a spelling/reference aid; do not blank any additional red phrase that was not a gray blank in the original question.
+- Match the learner's supplied source, not substitute the existing course dialogue or invent a new quiz.
+- Show the whole conversation at once and check all answers with one submission.
+- Use the previously selected playful game-inspired visual style, while keeping the bilingual dialogue and answer fields easy to read.
+- After submission, show only `X / 20` and per-blank correctness, entered answer, and supplied reference answer. Do not show mastery tiers or a translation stage in this preview.
+- Save up to the latest ten completed attempts in the learner's browser; no accounts, teacher view, backend, AI grading, or answer upload.
+- Implement only this rainy-day cloze now. Defer the sunny-day cloze and Chinese-to-English “7.2.1 天气不好” exercise until the learner reviews this first version.
 
-## Learner Flow
+## Supplied Conversation Content
 
-1. The learner opens the Weather & Environment quiz from its course card.
-2. An introduction explains the two stages, estimated effort, scoring, and that translations are graded against curated answers and accepted variants.
-3. The learner answers one question at a time. The interface shows stage and question progress.
-4. After the learner submits an answer, the quiz shows whether it matched, a short explanation, and the next action.
-5. When the five vocabulary questions are complete, the learner continues to the translation stage.
-6. After all ten questions, the results view presents the two section scores, mastery guidance, and item-by-item review with the learner's answer, reference answer, and explanation.
-7. The learner can retry the quiz or review the latest ten attempts saved in the current browser.
+Render the bilingual speaker / English / Chinese rows from the user-provided exercise images. Preserve their order and labels:
 
-The flow must remain usable on narrow/mobile screens and by keyboard. Inputs have visible labels; correct/incorrect feedback is conveyed in text and not by color alone.
+1. Sarah asks David about Seattle's weather.
+2. David describes the usual winter weather, all-morning rain, gloom, the city relying on antidepressants, and missing the sun.
+3. Sarah says “Classic Seattle.”
+4. David says he has accepted that it will rain every day.
+5. Jenny says “Same here” and that she does not bother checking the forecast unless she sees the sun.
+6. David says “That sounds about right. Hope everyone is staying dry.”
+7. Sarah transitions to release updates with “Anyway, let's dive into the release updates, shall we?” This last row has no blanks in the original question image.
 
-## Question Content and Grading
+Use the supplied Chinese translations as displayed. Do not rewrite or translate the supplied copy during implementation.
 
-- Derive the five vocabulary items from the existing lesson's `gloom`, `forecast`, `stay dry`, `take it for granted`, and `for a change` entries in `src/data/extraLessons.ts`. Translation prompts should assess existing weather greetings, rainy/sunny-day responses, and the transition back to work (including `Anyway, shall we get started with today's updates?`). Avoid introducing unrelated vocabulary.
-- Vocabulary answers are graded against their expected answer(s). Translation answers use curated reference sentences and explicitly listed common variants. Compare whole normalized answers, not partial keyword matches: lowercase, trim and collapse whitespace, and remove punctuation before exact comparison.
-- Store accepted variants alongside each question so they are explicit, reviewable, and covered by tests. Do not claim to accept arbitrary paraphrases.
-- Do not attempt semantic or AI grading. Explain this limitation before the quiz and on an unmatched translation result. A valid expression not included in the answer variants may be marked unmatched; show the reference answer and invite self-comparison rather than claiming that it is definitively ungrammatical.
-- Each section is scored independently from 0 to 5. Per-section guidance:
-  - 4–5: “掌握不错”
-  - 2–3: “建议复习”
-  - 0–1: “回到课程巩固”
-- Show the overall result as an overview, while keeping vocabulary and expression mastery separate. No pass/fail certificate or ranking is included.
-- XP and streak are motivational UI feedback only; they do not change scores or mastery guidance.
+## Cloze Content and Grading
 
-## Progress and Local Persistence
+Create exactly 20 inline blanks matching the individual gray fields in the original question image, in order:
 
-- Store up to the latest ten completed attempts in the learner's browser using `localStorage`; remove the oldest attempt only after successfully saving a newer completed attempt.
-- Each record includes a completion timestamp, per-question answers and grading result, and the two section scores so the learner can review prior mistakes.
-- Keep quiz definitions and scoring logic separate from view markup, and version the stored-history key/schema so future changes can be handled deliberately.
-- Do not persist an incomplete attempt in the first version.
-- If browser storage is unavailable, allow the current attempt and results to work in memory and show a clear notice that history cannot be saved.
-- If stored history cannot be parsed or does not match the supported schema, surface a clear notice and keep the current quiz usable. Do not silently represent an unreadable history as a valid empty history.
+1. `How's`
+2. `weather`
+3. `looking`
+4. `usual`
+5. `weather`
+6. `all morning`
+7. `feel like`
+8. `miss`
+9. `the`
+10. `sun`
+11. `Classic`
+12. `At`
+13. `this`
+14. `point`
+15. `accepted`
+16. `don't`
+17. `even`
+18. `bother`
+19. `sounds`
+20. `staying`
+
+- Store each blank with a stable ID, accepted exact answer(s), and a concise learning note where the source or course content supports one. Treat multiword gray fields such as `all morning` and `feel like` as one answer; keep individually separated gray fields such as `At`, `this`, and `point` as separate answers.
+- Normalize answers by lowercasing, trimming, collapsing whitespace, and removing punctuation; compare the entire normalized answer, never keyword substrings.
+- Allow a learner to submit with some blanks unanswered; unanswered blanks count as incorrect and display the reference answer.
+- Following submission, mark every field correct/incorrect in text, show the score out of 20 and the correct span for every incorrect or unanswered blank. Do not gate review on a pass threshold.
+- Retrying starts a fresh attempt and does not change previous completed records.
+
+## Learner Flow and History
+
+1. From the Weather & Environment home card, the learner chooses a distinct rainy-day cloze action.
+2. The cloze view identifies the exercise and explains that all blanks are checked together.
+3. The learner completes inline blanks within the entire bilingual speaker table and submits once.
+4. The submitted result is shown in place with the score, item-by-item feedback, and reference answers.
+5. The learner may retry or return to the course/home.
+6. A compact history area lists recent attempt dates and scores; each saved record contains the answers and correctness needed to review that attempt.
+
+Save only completed submissions, retain at most the latest ten, and use a versioned key/schema. Schema version 1 is `{ schemaVersion: 1, attempts: [{ completedAt: ISO timestamp, answers: 20 strings, correctness: 20 booleans, score: integer 0..20 }] }`. If storage is unavailable, the current activity still works in memory and a visible notice explains that history cannot be saved. If stored history is corrupt or unsupported, show a clear notice without blocking the current attempt or silently claiming a valid empty history. Read/load results must distinguish valid history, unavailable storage, and corrupt/unsupported history; save results must distinguish saved from unavailable/failed storage.
+
+## Accessibility and Visual Behavior
+
+- Preserve semantic speaker, English, and Chinese columns while allowing inline answer inputs to wrap on narrow screens.
+- Give every input an accessible name that references its sentence/blank.
+- Support keyboard entry and submission; show visible keyboard focus.
+- Announce submission score and per-answer feedback to assistive technology.
+- Do not communicate correctness by color alone.
+- XP/streak decoration, if present, is cosmetic only and must not imply a different score.
 
 ## Technical Shape
 
-- Integrate with the existing `Training` view/navigation patterns rather than creating another app or adding a backend.
-- Add an explicit quiz entry from the Weather & Environment course card in `Home`.
-- Keep the quiz content/model, grading helpers, and history handling independently testable from the screen component.
-- Use the course's existing styling conventions where possible, with the approved game-inspired treatment for this quiz.
-- Preserve the existing lesson flow, course completion tracking, and listening player behavior.
+- Integrate through existing `Home` and `Training` navigation patterns; do not make a second app.
+- Keep the supplied conversation/answer data, normalization/grading, and versioned history helpers independently testable from the React view.
+- Preserve the existing Weather & Environment lesson, other courses, completion state, and listening player.
 
-## Verification and Acceptance Criteria
+## Acceptance Criteria
 
-- Existing course and listening-player tests continue to pass.
-- A learner can enter the quiz from the Weather & Environment course card and return to the course/home navigation.
-- Exactly five vocabulary questions precede exactly five translation questions; stage progress and question progress remain accurate.
-- Answer feedback, stage transition, and final results are correct for right and wrong answers.
-- Translation matching accepts curated variants and punctuation/case/whitespace differences, and reports unmatched answers transparently.
-- Matching tests cover an accepted variant, punctuation/case/whitespace normalization, an incorrect answer that shares a keyword, and a valid-but-unlisted paraphrase that is transparently marked unmatched.
-- Each section's score and mastery guidance match the stated thresholds.
-- Results show all submitted answers with reference answers and explanations.
-- A completed attempt is available in history after a page reload; saving a new attempt retains only the most recent ten.
-- Storage failure or unreadable history produces a visible warning without preventing an in-memory attempt.
-- Keyboard interaction and narrow-screen layout are verified.
+- The Weather & Environment course card exposes a distinct entry to this cloze view.
+- The practice reproduces all source rows, speaker labels, English, Chinese, and exactly 20 gray-field blanks in order.
+- All 20 reference answers fit their original sentence context, and punctuation/case/spacing differences do not change a match.
+- Submitting a mixture of correct, incorrect, and empty answers yields the correct `X / 20` score and useful per-blank feedback.
+- A learner can retry and return without altering existing course behavior.
+- Completed attempts survive reload in the same browser; saving an 11th attempt retains the newest ten.
+- Storage unavailable/corrupt states show clear notices while leaving the current activity usable.
+- Focused unit, UI, and existing course/player tests pass; production bundling succeeds where the project configuration permits it.

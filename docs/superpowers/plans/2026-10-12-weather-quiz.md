@@ -1,10 +1,10 @@
-# Weather & Environment Quiz Implementation Plan
+# Rainy-Day Dialogue Cloze Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add a game-inspired, two-stage vocabulary and translation assessment for the Weather & Environment lesson, with transparent feedback and local score history.
+**Goal:** Add the learner's exact rainy-day dialogue cloze as a readable, game-inspired activity with 20 inline blanks, unified grading, answer review, and local attempt history.
 
-**Architecture:** Keep question definitions, exact normalized grading, mastery thresholds, and local history operations in focused `src/lib` modules. Render the learner flow in a focused `WeatherQuiz` view and integrate it through the existing `Home` card and `Training` view switch without changing existing lesson-completion semantics.
+**Architecture:** Store the supplied bilingual dialogue as speaker-labeled rows with typed text/blank segments; keep answer normalization, exact grading, and versioned local history separate from the React UI. Integrate the whole-table exercise as its own `Training` view and a separate action on the Weather & Environment card.
 
 **Tech Stack:** React 19, TypeScript, Vite, Vitest, React Testing Library, CSS, browser `localStorage`.
 
@@ -12,181 +12,178 @@
 
 ## File Map
 
-- Modify `src/Home.tsx`: add a quiz action to the Weather & Environment lesson card and widen its navigation callback type.
-- Modify `src/Training.tsx`: add the `quiz` view, render `WeatherQuiz`, and ensure return navigation and breadcrumbs remain correct.
-- Create `src/WeatherQuiz.tsx`: quiz intro, sequential question/feedback stages, results, and recent-attempt history UI.
-- Create `src/weather-quiz.css`: scoped responsive game-inspired presentation and visible keyboard focus states.
-- Create `src/lib/weatherQuiz.ts`: typed question bank, normalization, exact answer matching, section scoring, and mastery levels.
-- Create `src/lib/weatherQuizStorage.ts`: versioned local-history parsing and retention of ten completed attempts, with explicit storage-error results.
-- Create `tests/weatherQuiz.test.ts`: unit tests for quiz data, answer normalization/matching, scoring, mastery thresholds, and persistence.
-- Create `tests/WeatherQuiz.test.tsx`: learner-flow, accessibility, results, and storage-warning tests.
-- Modify `tests/Training.test.tsx`: verify the home card opens the quiz and navigation back to the home/course works without disturbing other views.
-- Create `src/test/setup.ts` only as a test-runner prerequisite: `vite.config.ts` already references it, but it is absent in the current workspace; import `@testing-library/jest-dom/vitest` so existing DOM matchers are available.
+- Modify `src/Home.tsx`: add a distinct rainy-day exercise action to the Weather & Environment card.
+- Modify `src/Training.tsx`: add the cloze activity view, return path, and activity navigation while preserving course and listening views.
+- Create `src/WeatherQuiz.tsx`: supplied bilingual table, inline inputs, unified submission, results/retry, and recent-attempt display.
+- Create `src/weather-quiz.css`: responsive, game-inspired activity and feedback styles.
+- Replace/refactor `src/lib/weatherQuiz.ts`: authoritative supplied dialogue rows, exactly 20 individual gray-field answers, normalization, and whole-answer grading.
+- Create `src/lib/weatherQuizStorage.ts`: versioned, validated history load/save with ten-attempt retention and explicit error states.
+- Modify `tests/weatherQuiz.test.ts`: original-source positions, answer keys, normalized exact grading, and history operations.
+- Create `tests/WeatherQuiz.test.tsx`: full-table rendering, all-at-once checking, score/answer review, history, and storage-warning behavior.
+- Modify `tests/Training.test.tsx`: separate home-card entry and return navigation coverage.
+- Create `src/test/setup.ts`: import `@testing-library/jest-dom/vitest`; this configured setup file is missing and currently prevents all Vitest suites from starting.
 
-## Workspace Preconditions
+## Workspace
 
-- Execute this plan from the complete Vite app root containing `package.json`, `index.html`, and `src/main.tsx`; do not use a data-only or partial copy.
-- Before feature work, confirm `npm run dev` serves the current app and `npm run test -- tests/Training.test.tsx` can start. The current `vite.config.ts` names `src/test/setup.ts`, which is missing; add the minimal setup file above before relying on Vitest.
-- The current workspace has no Git metadata, so do not run Git commit commands here. If implementation is moved to the original Git repository, make the usual focused commits there.
+Work only in `/Users/tingtingtao/.config/superpowers/worktrees/workplace-english-course/weather-quiz`, on branch `feature/weather-quiz`. The root project repository and initial baseline commit were created with user authorization; do not move implementation into the source directory outside the worktree.
 
-### Task 1: Implement and test quiz definitions and grading
+## Source Blanks in Order
+
+The first gray-blank question image is authoritative. The 20 independent inputs and accepted reference answers, in order, are:
+
+`How's`, `weather`, `looking`, `usual`, `weather`, `all morning`, `feel like`, `miss`, `the`, `sun`, `Classic`, `At`, `this`, `point`, `accepted`, `don't`, `even`, `bother`, `sounds`, `staying`.
+
+Keep `Same here`, `checking`, `Anyway`, `dive into`, and the rest of the last row visible because they are not gray blanks in the original question. Do not use the later answer-key image to add blanks or change source wording. Use the source table's bilingual text and labels: Sarah asks about the weather; David describes the rain/gloom and missing the sun; Sarah says Classic Seattle; David accepts the rainy weather; Jenny says Same here and describes not checking the forecast; David says “That sounds about right” and hopes everyone is staying dry; Sarah moves to release updates.
+
+## Task 1: Replace quiz definitions with the supplied 20-blank dialogue
 
 **Files:**
-- Create: `src/lib/weatherQuiz.ts`
-- Create: `tests/weatherQuiz.test.ts`
-- Create: `src/test/setup.ts` (test-runner prerequisite)
+- Modify: `src/lib/weatherQuiz.ts`
+- Modify: `tests/weatherQuiz.test.ts`
+- Create: `src/test/setup.ts`; preserve the existing `vite.config.ts` `setupFiles` entry, which already points to this path.
 
-- [ ] **Step 1: Add focused unit tests for normalization and exact matching**
+- [ ] **Step 1: Write failing tests for the exact source structure**
 
-Test that `normalizeAnswer` lowercases, trims, collapses whitespace, and removes punctuation; test exact normalized matching for a curated variant; ensure a wrong sentence containing a shared keyword does not pass, and a valid but unlisted paraphrase is transparently unmatched.
+Assert the speaker-labeled bilingual row content/order matches the supplied original question, and exactly 20 blank segments appear in order with the answer list above. Assert visible phrases (`Same here`, `checking`, and the final transition text) are not replaced by blank markers.
 
-- [ ] **Step 2: Add tests for the question-bank shape and section scoring**
+- [ ] **Step 2: Add failing tests for exact grading**
 
-Assert five vocabulary questions and five translation questions are present, each has a stable ID, prompt, reference answer, explanation, and at least one accepted answer. Test section scores at 0, 1, 2, 3, 4, and 5 and verify the three mastery labels at their exact boundaries.
+Test case/whitespace/punctuation normalization on individual blanks, reject partial/keyword matches, and verify blank fields are graded independently, including repeated tokens such as `weather`.
 
-- [ ] **Step 3: Run the targeted tests and confirm the expected initial failure**
-
-Run: `npm run test -- tests/weatherQuiz.test.ts`
-
-Expected: FAIL because the weather quiz module and its exported helpers do not yet exist. If test startup fails first due to the configured missing setup file, create the minimal `src/test/setup.ts` importing `@testing-library/jest-dom/vitest`, then rerun.
-
-- [ ] **Step 4: Define the typed question bank and grading helpers**
-
-Create five vocabulary fill-ins from the lesson's `gloom`, `forecast`, `stay dry`, `take it for granted`, and `for a change` vocabulary entries. Create five Chinese prompts covering weather greetings, rainy/sunny-day responses, and returning to work; list reference answers and curated common variants explicitly. Implement normalization as lowercase + trimmed/collapsed whitespace + punctuation removal, then whole-answer equality only. Implement independent 0–5 section scores and the agreed mastery labels.
-
-- [ ] **Step 5: Run the unit tests and confirm they pass**
+- [ ] **Step 3: Run the focused unit test to observe the intended failure**
 
 Run: `npm run test -- tests/weatherQuiz.test.ts`
 
-Expected: PASS for all question-bank, matching, score, and mastery cases.
+Expected: FAIL because the current five-plus-five hypothetical question bank does not model the supplied dialogue. If startup first fails because `src/test/setup.ts` is missing, create that setup file importing `@testing-library/jest-dom/vitest` and rerun.
 
-### Task 2: Add versioned attempt-history storage
+- [ ] **Step 4: Implement the typed dialogue/blank model**
+
+Represent each row with speaker, Chinese translation, and ordered English text/blank segments. Use the 20 source answers exactly; keep multiword gray fields `all morning` and `feel like` in one input, and `At`, `this`, `point` in three inputs. Implement lowercase/trim/collapse-whitespace/remove-punctuation normalization followed by exact whole-answer comparison.
+
+- [ ] **Step 5: Run the focused unit tests**
+
+Run: `npm run test -- tests/weatherQuiz.test.ts`
+
+Expected: PASS for exact rows, blank count/order, and exact normalized grading.
+
+## Task 2: Implement versioned attempt history
 
 **Files:**
 - Create: `src/lib/weatherQuizStorage.ts`
 - Modify: `tests/weatherQuiz.test.ts`
 
-- [ ] **Step 1: Add failing tests for history serialization and schema validation**
+- [ ] **Step 1: Add failing history tests**
 
-Cover empty history, valid stored records, malformed JSON, unsupported schema, and attempts containing per-question answers and correctness.
+Cover empty and valid versioned history, malformed JSON, unsupported schema, completed records with timestamp/20 submitted answers/20 correctness flags/score, and most-recent-ten retention.
 
-- [ ] **Step 2: Add failing tests for the ten-attempt retention rule and storage errors**
+- [ ] **Step 2: Add failing storage-error tests**
 
-Verify a new completed attempt appends to history and only the latest ten remain. Verify unavailable storage and a write exception produce explicit failure results without throwing into the UI or silently reporting success.
+Verify unavailable storage and read/write exceptions are returned as explicit states, without preventing an in-memory attempt or falsely reporting a save.
 
-- [ ] **Step 3: Run the targeted tests and confirm storage tests fail**
-
-Run: `npm run test -- tests/weatherQuiz.test.ts`
-
-Expected: FAIL because the versioned storage API is not implemented.
-
-- [ ] **Step 4: Implement versioned load/save helpers**
-
-Use a versioned key and validated record shape. Keep storage access injectable for unit tests. Catch storage access/serialization failures only at this boundary and return a typed result that distinguishes unavailable, corrupt/unsupported, and saved history. Save a completed result before trimming and writing the latest ten records.
-
-- [ ] **Step 5: Run the unit tests and confirm persistence behavior**
+- [ ] **Step 3: Run tests and verify the storage cases fail**
 
 Run: `npm run test -- tests/weatherQuiz.test.ts`
 
-Expected: PASS for valid history, corrupt history, retention, and storage failures.
+Expected: FAIL because no history API exists.
 
-### Task 3: Build the staged quiz and history interface
+- [ ] **Step 4: Implement typed storage helpers**
+
+Use a versioned history key and schema validation. Version 1 attempt records contain `{ completedAt: ISO timestamp, answers: string[20], correctness: boolean[20], score: integer 0..20 }`. Make storage injectable for tests. Append only completed submissions; write the newest ten in chronological order. Return explicit loaded, unavailable, corrupt/unsupported, and saved/failure results.
+
+- [ ] **Step 5: Rerun unit tests**
+
+Run: `npm run test -- tests/weatherQuiz.test.ts`
+
+Expected: PASS for valid records, invalid history, retention, and storage failures.
+
+## Task 3: Build the whole-dialogue activity
 
 **Files:**
 - Create: `src/WeatherQuiz.tsx`
 - Create: `src/weather-quiz.css`
 - Create: `tests/WeatherQuiz.test.tsx`
 
-- [ ] **Step 1: Add failing rendering tests for quiz start and question stages**
+- [ ] **Step 1: Write failing tests for full bilingual table and inputs**
 
-Verify the intro explains curated-variant grading, the vocabulary stage starts first, exactly one question is shown at a time, and stage/question progress is accurate.
+Assert all source rows/speakers/translations render; all 20 inputs have accessible names; exactly the original gray fields are editable; input order matches the source; the final row remains visible text.
 
-- [ ] **Step 2: Add failing tests for feedback, stage transition, and results**
+- [ ] **Step 2: Write failing tests for unified submission and review**
 
-Verify answer submission reveals correct/incorrect text and explanation; completing five vocabulary items opens the translation stage; completing ten items shows both scores, mastery guidance, answer review, reference answers, and explanations.
+Fill a mix of correct, incorrect, and empty answers; submit once; assert `X / 20`, every blank's text-labeled correctness, and reference answers for wrong/unanswered fields. Verify no mastery tier or translation stage is shown.
 
-- [ ] **Step 3: Add failing tests for history and accessible interaction**
+- [ ] **Step 3: Write failing tests for retry, history, and storage errors**
 
-Verify a completed attempt appears in recent history, a second render can load it from local storage, storage failures show a visible warning while the quiz still works, and labels/status text support keyboard and screen-reader use.
+Assert retry starts blank, completed attempts appear in recent history and load after rerender, storage failures show a visible notice without disabling the activity, and corrupt history is not silently treated as valid empty history.
 
-- [ ] **Step 4: Run the focused component tests and confirm the expected failure**
+- [ ] **Step 4: Run the focused component tests and observe expected failure**
 
 Run: `npm run test -- tests/WeatherQuiz.test.tsx`
 
 Expected: FAIL because `WeatherQuiz` is not implemented.
 
-- [ ] **Step 5: Implement the quiz state flow**
+- [ ] **Step 5: Implement the bilingual table and unified grading**
 
-Implement intro → question → feedback → next question → stage transition → result/history states. Disable empty submissions, keep XP/streak decorative only, present unmatched translation answers as “not in the accepted-answer list; compare with the reference answer,” and persist only completed attempts.
+Render each English row by mapping its text/blank segments into inline text inputs. Store answers by stable blank ID. Allow partially completed submission; unanswered fields count incorrect. On submission show a live-announced total and correct/incorrect text plus reference for each miss. Persist only completed submissions; offer retry and return actions.
 
-- [ ] **Step 6: Add the responsive game-inspired styles**
+- [ ] **Step 6: Apply responsive game-inspired styles**
 
-Use a clear stage progress indicator, question counter, XP/streak feedback, readable answer input, and distinct but text-labeled feedback. Keep the question and result content primary; ensure keyboard focus is visible and narrow layouts do not overflow.
+Style stage heading, progress/XP decoration (cosmetic only), source-like speaker/EN/中文 table, inline inputs, and results. Preserve readable table behavior on narrow screens (stack or horizontal scrolling without hiding answers), visible focus, and non-color correctness cues.
 
-- [ ] **Step 7: Run focused component tests and confirm they pass**
+- [ ] **Step 7: Run the focused component tests**
 
 Run: `npm run test -- tests/WeatherQuiz.test.tsx`
 
-Expected: PASS for stage flow, scoring display, history, warnings, and accessibility labels.
+Expected: PASS for source rendering, 20 fields, unified score/feedback, history, mobile/keyboard semantics, and error notices.
 
-### Task 4: Integrate course entry and app navigation
+## Task 4: Integrate the course entry and app navigation
 
 **Files:**
 - Modify: `src/Home.tsx`
 - Modify: `src/Training.tsx`
 - Modify: `tests/Training.test.tsx`
 
-- [ ] **Step 1: Add a failing test for the Weather lesson's quiz entry**
+- [ ] **Step 1: Add a failing test for the distinct cloze entry**
 
-Filter to daily communication, confirm the Weather & Environment card still opens its lesson, and assert a separate quiz action is available.
+Show the daily-communication course cards and assert Weather & Environment offers a separate “挖词填空” action without replacing its existing lesson action.
 
-- [ ] **Step 2: Add a failing test for app navigation**
+- [ ] **Step 2: Add a failing test for view navigation**
 
-Click the quiz action and assert the quiz intro is shown rather than course dialogue; use the quiz return control and assert home is restored. Verify the existing lesson, listening-player, and alternate-home navigation tests remain valid.
+Click the cloze entry and assert the exercise table renders; return to the learning home and assert existing home content is restored. Ensure the standard Weather lesson and listening player still open normally.
 
-- [ ] **Step 3: Run the targeted integration test and confirm it fails**
-
-Run: `npm run test -- tests/Training.test.tsx`
-
-Expected: FAIL because no quiz entry/view is wired.
-
-- [ ] **Step 4: Wire the home card and `Training` view**
-
-Add a separate “开始检测” action to the existing Weather & Environment card. Extend `Training`'s view union and navigation callback type with `quiz`; render `WeatherQuiz` explicitly so it does not fall through to the lesson-document branch. Provide a clear return-to-home action and quiz-specific breadcrumb/title while preserving existing lesson selection, completion, and listening behavior.
-
-- [ ] **Step 5: Run the integration tests and confirm they pass**
+- [ ] **Step 3: Run focused integration tests and confirm expected failure**
 
 Run: `npm run test -- tests/Training.test.tsx`
 
-Expected: PASS for quiz entry, return navigation, and existing training flows.
+Expected: FAIL because no cloze entry/view is wired.
 
-### Task 5: Verify the complete behavior
+- [ ] **Step 4: Wire `Home` and `Training`**
 
-**Files:**
-- Verify: `src/WeatherQuiz.tsx`
-- Verify: `src/weather-quiz.css`
-- Verify: `src/lib/weatherQuiz.ts`
-- Verify: `src/lib/weatherQuizStorage.ts`
-- Verify: `tests/weatherQuiz.test.ts`
-- Verify: `tests/WeatherQuiz.test.tsx`
-- Verify: `tests/Training.test.tsx`
+Add a dedicated callback/action for the weather cloze. Add a `weatherQuiz` view branch before the lesson-document fallback, include an accessible return control and activity-specific title/breadcrumb, and preserve all existing view transitions and lesson-completion state.
 
-- [ ] **Step 1: Run all Vitest tests**
+- [ ] **Step 5: Run integration tests**
+
+Run: `npm run test -- tests/Training.test.tsx`
+
+Expected: PASS, including existing lesson/player flows.
+
+## Task 5: Verify full feature
+
+- [ ] **Step 1: Run all tests**
 
 Run: `npm test`
 
-Expected: PASS for the full test suite, including pre-existing caption/player tests.
+Expected: PASS for existing and new tests.
 
-- [ ] **Step 2: Run the production bundler**
+- [ ] **Step 2: Run production build**
 
 Run: `npx vite build`
 
-Expected: Vite creates a production build without missing-module or CSS errors. `npm run build` additionally requires the TypeScript project configuration to be present in the actual app root.
+Expected: Vite production build succeeds. Also run `npm run build` if `tsconfig.json` is present in the actual app root.
 
-- [ ] **Step 3: Manually verify desktop and mobile browser layouts**
+- [ ] **Step 3: Manually verify the preview**
 
-Run: `npm run dev`, open the Vite Local URL, start the weather quiz, complete both stages, inspect results and history, then verify at a narrow viewport and by keyboard. Confirm the browser displays a storage warning when storage is blocked and that existing lesson/listening navigation still works.
+Run: `npm run dev`; open the local URL and check all 20 gray fields against the original screenshot, partial submission, `X / 20` result/review, retry, saved history, narrow viewport, keyboard focus, and return navigation.
 
-- [ ] **Step 4: Remove any temporary test data**
+- [ ] **Step 4: Confirm no sunny-day or translation stage was added**
 
-Clear only the quiz's test history key from the test browser context; do not clear unrelated course-completion records.
+Verify the deliverable contains only this rainy-day cloze, as requested for the review-first iteration.
